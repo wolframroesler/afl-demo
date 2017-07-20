@@ -96,9 +96,9 @@ $ ./fuzz.sh
 
 ### Evaluating The Fuzzer Results
 
-Let the fuzzer run until it finds one or more crashes, then terminate it with ^C.
+Let the fuzzer run until it finds one or more crashes or hangs, then terminate it with ^C. Fuzzing can take a considerable time (hours or days depending on the complexity of your program).
 
-You find the input that made the program crash in the `findings/crashes` directory. Debug and fix your program until it processes the input cleanly (it may be a good idea to add AFL's findings to your suite of unit tests). Repeat until no more crashes are found (`rm -fr findings` for a fresh start).
+You find the input that made the program crash or hang in the `findings/crashes` and `findings/hangs` directories. Debug and fix your program until it processes the input cleanly (it may be a good idea to add AFL's findings to your suite of unit tests). Repeat (you may want to `rm -fr findings` for a fresh start).
 
 ## Resources
 
