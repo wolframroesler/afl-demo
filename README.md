@@ -8,7 +8,7 @@ This is a simple demonstration of how to fuzz-test a C++ program with the AFL ("
 
 The goal of unit testing is to feed well-known input into your program and compare its output to the expected results.
 
-The goal of fuzz testing (or fuzzing) is to feed random data into your program until it crashes.
+The goal of fuzz testing (or fuzzing) is to feed random data into your program until it crashes. Every crash is an indication of undefined behavior and thus of a potential security hole.
 
 ## Files
 
@@ -98,9 +98,26 @@ $ ./fuzz.sh
 
 Let the fuzzer run until it finds one or more crashes or hangs, then terminate it with ^C. Fuzzing can take a considerable time (hours or days depending on the complexity of your program).
 
-You find the input that made the program crash or hang in the `findings/crashes` and `findings/hangs` directories. Debug and fix your program until it processes the input cleanly (it may be a good idea to add AFL's findings to your suite of unit tests). Repeat (you may want to `rm -fr findings` for a fresh start).
+You find the input that made the program crash or hang in the `findings/crashes` and `findings/hangs` directories.
 
-## Resources
+```sh
+$ ls -l findings/crashes/
+total 3432
+-rw-------  1 wolfram  staff    657 20 Jul 15:19 README.txt
+-rw-------  1 wolfram  staff  19311 20 Jul 15:19 id:000000,sig:11,src:000002+000031,op:splice,rep:128
+-rw-------  1 wolfram  staff   1288 20 Jul 15:19 id:000001,sig:11,src:000002+000028,op:splice,rep:32
+-rw-------  1 wolfram  staff    292 20 Jul 15:19 id:000002,sig:11,src:000002+000028,op:splice,rep:128
+-rw-------  1 wolfram  staff  23322 20 Jul 15:19 id:000003,sig:11,src:000002+000028,op:splice,rep:16
+-rw-------  1 wolfram  staff  14905 20 Jul 15:19 id:000004,sig:11,src:000002+000013,op:splice,rep:128
+-rw-------  1 wolfram  staff   1535 20 Jul 15:19 id:000005,sig:11,src:000002+000013,op:splice,rep:64
+…
+$ build/afldemo <findings/crashes/id:000000,sig:11,src:000002+000031,op:splice,rep:128
+Bus error: 10
+```
+
+Debug and fix your program until it processes the offending input cleanly (it may be a good idea to add AFL's findings to your suite of unit tests). Repeat (you may want to `rm -fr findings` for a fresh start).
+
+## Links
 
 AFL homepage: http://lcamtuf.coredump.cx/afl/
 
