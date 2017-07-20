@@ -18,20 +18,20 @@
  * @bug Buggy by design.
  */
 char const *uridecode(char const *s) {
-  static char ret[100];
-  for(char *p=ret;*s;++s) {
-	if (*s=='%') {
-	  auto const a = *++s;
-	  auto const b = *++s;
-	  *p++ = (a<='9' ? a-'0' : a-'a') * 16 + (b<='9' ? b-'0' : b-'a');
-	} else if (*s=='+') {
-	  *p++ = ' ';
-	} else {
-	  *p++ = *s;
+	static char ret[100];
+	for(char *p=ret;*s;++s) {
+		if (*s=='%') {
+			auto const a = *++s;
+			auto const b = *++s;
+			*p++ = (a<='9' ? a-'0' : a-'a') * 16 + (b<='9' ? b-'0' : b-'a');
+		} else if (*s=='+') {
+			*p++ = ' ';
+		} else {
+			*p++ = *s;
+		}
 	}
-  }
 
-  return ret;
+	return ret;
 }
 
 /*
@@ -40,9 +40,9 @@ char const *uridecode(char const *s) {
  * result to stdout.
  */
 int main() {
-  auto const uri = std::string(
-	std::istreambuf_iterator<char>(std::cin),
-	std::istreambuf_iterator<char>()
-  );
-  std::cout << uridecode(uri.c_str());
+	auto const uri = std::string(
+		std::istreambuf_iterator<char>(std::cin),
+		std::istreambuf_iterator<char>()
+	);
+	std::cout << uridecode(uri.c_str());
 }
