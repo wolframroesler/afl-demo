@@ -13,13 +13,17 @@
  * appropriate ASCII code. Translates '+' into space. Leaves all
  * other characters unchanged.
  *
- * @param s The URI to decode.
- * @returns The decoded URI.
+ * Example:
+ * - In:  "Hello+world%21"
+ * - Out: "Hello world!"
+ *
+ * @param s The string to decode.
+ * @returns The decoded string.
  * @bug Buggy by design.
  */
-char const *uridecode(char const *s) {
+const char *uridecode(const char *s) {
 	static char ret[100];
-	for(char *p=ret;*s;++s) {
+	for(auto *p=ret;*s;++s) {
 		if (*s=='%') {
 			auto const a = *++s;
 			auto const b = *++s;

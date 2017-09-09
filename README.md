@@ -45,7 +45,7 @@ Looks ok, doesn't it? Now wait and see ...
 
 ## Fuzzing The Demonstration Program
 
-Replace `2.49b` by the appropriate version of AFL (that is, what afl-latest.tgz unpacks into).
+Throughout the following, replace `2.51b` by the appropriate version of AFL (that is, what afl-latest.tgz unpacks into).
 
 ### Download And Build AFL
 
@@ -55,7 +55,7 @@ $ mkdir afl
 $ cd $_
 $ wget http://lcamtuf.coredump.cx/afl/releases/afl-latest.tgz
 $ tar xzf afl-latest.tgz
-$ cd afl-2.49b/
+$ cd afl-2.51b/
 $ make
 ```
 
@@ -67,27 +67,22 @@ To get AFL started, give it some legal input that your programm processes. Creat
 $ cd afl-demo
 $ mkdir testcases
 $ cd $_
-$ echo your test input >name.txt
+$ echo "your first test input" >01.txt
+$ echo "your second test input" >02.txt
 ```
 
-### Build The Instrumented Test Program
+### Build The Instrumented Test Program And Run The Fuzzer
 
 ```sh
 $ cd afl-demo
 $ mkdir aflbuild
 $ cd $_
-$ CC=/path/to/afl/afl-2.49b/afl-gcc CXX=/path/to/afl/afl-2.49b/afl-g++ cmake ..
+$ CC=/path/to/afl/afl-2.51b/afl-gcc CXX=/path/to/afl/afl-2.51b/afl-g++ cmake ..
 $ make
+$ /path/to/afl/afl-2.51b/afl-fuzz -i ../testcases -o ../findings ./afldemo
 ```
 
-### Run The Fuzzer
-
-```sh
-$ cd afl-demo/aflbuild
-$ /path/to/afl/afl-2.49b/afl-fuzz -i ../testcases -o ../findings ./afldemo
-```
-
-Or, when using this demonstration project, use the provided shell script that builds the instrumented executable and runs the fuzzer. Edit `fuzz.sh` first and set variable `AFL` to the directory in which you built AFL.
+Or, when using this demonstration project, use the provided shell script that builds the instrumented executable and runs the fuzzer. Edit `fuzz.sh` first and set variable `AFL` to the directory in which you built AFL. Then:
 
 ```sh
 $ cd afl-demo
@@ -96,9 +91,9 @@ $ ./fuzz.sh
 
 ### Evaluating The Fuzzer Results
 
-Let the fuzzer run until it finds one or more crashes or hangs, then terminate it with ^C. Fuzzing can take a considerable time (hours or days depending on the complexity of your program).
+Let the fuzzer run until it finds one or more crashes or hangs, then terminate it with ^C. Fuzzing can take a considerable time (hours or days depending on the complexity of your program; for this demonstration, however, the first crashes are fund after about ten minutes on my machine).
 
-You find the input that made the program crash or hang in the `findings/crashes` and `findings/hangs` directories.
+You find the input that made the program crash or hang in the `findings/crashes` and `findings/hangs` directories. Redirect these files into your program to reproduce a crash or hang.
 
 ```sh
 $ ls -l findings/crashes/
@@ -127,4 +122,3 @@ The OSS Fuzz project: https://github.com/google/oss-fuzz
 
 ---
 *Wolfram Rösler • wolfram@roesler-ac.de • https://twitter.com/wolframroesler • https://github.com/wolframroesler*
-

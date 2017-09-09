@@ -2,7 +2,7 @@
 # Build and run the instrumented executable
 
 # AFL installation path, modify as required
-AFL=~/Nextcloud/src/afl/afl-2.49b
+AFL=~/Nextcloud/src/afl/afl-2.51b
 
 # Use AFL as a compile front-end
 export CC=$AFL/afl-clang
