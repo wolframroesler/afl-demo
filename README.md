@@ -112,6 +112,25 @@ Bus error: 10
 
 Debug and fix your program until it processes the offending input cleanly (it may be a good idea to add AFL's findings to your suite of unit tests). Repeat (you may want to `rm -fr findings` for a fresh start).
 
+## Fuzzing Black-Box Binaries
+
+To fuzz-test a program for which you don't have the source code, use the QEMU tool. Linux only.
+
+In the following example, $AFL is the directory in which AFL was built.
+
+```sh
+$ sudo apt install libtool-bin
+$ sudo apt install libglib2.0-dev
+
+$ cd $AFL/qemu_mode
+$ ./build_qemu_support.sh
+
+$ cd your/testing/directory
+$ AFL_SKIP_CPUFREQ=1 $AFL/afl-fuzz -Q -i testcases -o findings /path/to/executable
+```
+
+Fuzzing Java programs is tricky because you want to fuzz the actual program, not the Java runtime package. One solution (albeit abandoned and outdated): https://github.com/floyd-fuh/AFL_GCJ_Fuzzing_Simple
+
 ## Links
 
 AFL homepage: http://lcamtuf.coredump.cx/afl/
